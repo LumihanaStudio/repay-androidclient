@@ -1,128 +1,118 @@
 package malang.moe.repay.activity;
 
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import java.util.List;
-
 import malang.moe.repay.R;
-import malang.moe.repay.data.MedicalCenter_Response;
-import malang.moe.repay.data.MedicalRow;
-import malang.moe.repay.data.TravelPark_Response;
-import malang.moe.repay.data.TravelRow;
-import malang.moe.repay.data.WelfareCenter_Response;
-import malang.moe.repay.data.WelfareRow;
-import malang.moe.repay.utils.NetworkService;
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.GsonConverterFactory;
-import retrofit.Response;
-import retrofit.Retrofit;
 
-public class MainActivity extends AppCompatActivity {
-
-    // Widgets
-    TextView asdf;
-    // Service
-    NetworkService service;
-    Retrofit retrofit;
-    Call<MedicalCenter_Response> medicalCenter_Response;
-    Call<TravelPark_Response> travelPark_Response;
-    Call<WelfareCenter_Response> welfareCenter_Response;
-    List<TravelRow> travelRows;
-    List<MedicalRow> medicalRows;
-    List<WelfareRow> welfareRows;
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    Toolbar toolbar;
+    DrawerLayout dlDrawer;
+    ActionBarDrawerToggle dtToggle;
+    NavigationView navigationView;
+    TextView sendSMS, sendCall;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setActionBar();
         setDefault();
-        setRestAdapter();
-        parseData();
     }
 
-    private void parseData() {
-        medicalCenter_Response.enqueue(new Callback<MedicalCenter_Response>() {
+    private void setDefault() {
+        sendCall = (TextView) findViewById(R.id.main_send_call);
+        sendSMS = (TextView)findViewById(R.id.main_send_sms);
+        sendCall.setOnClickListener(this);
+        sendSMS.setOnClickListener(this);
+        navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onResponse(Response<MedicalCenter_Response> response, Retrofit retrofit) {
-                if(response.code()==200){
-                    medicalRows = response.body().medicalCenter.row;
-                    for(MedicalRow medicalRow : medicalRows){
-                        asdf.append(medicalRow.MED_NM+"\n");
-                    }
+            public boolean onNavigationItemSelected(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.main_drawer_stretch:
+                        Toast.makeText(MainActivity.this, "스트레칭", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.main_drawer_facilities:
+                        Toast.makeText(MainActivity.this, "복지시설", Toast.LENGTH_SHORT).show();
+                    break;
+                    case R.id.main_drawer_pictures:
+                        Toast.makeText(MainActivity.this, "추억사진", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.main_drawer_settings:
+                        startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
+                        break;
+                    case R.id.main_drawer_tutorial:
+                        startActivity(new Intent(getApplicationContext(), TutorialActivity.class));
+                        break;
                 }
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                return true;
             }
         });
     }
 
-//    private void parseData() {
-//        welfareCenter_Response.enqueue(new Callback<WelfareCenter_Response>() {
-//            @Override
-//            public void onResponse(Response<WelfareCenter_Response> response, Retrofit retrofit) {
-//                if(response.code()==200){
-//                    welfareRows = response.body().welfareCenter.row;
-//                }
-//                for(WelfareRow welfareRow : welfareRows){
-//                    asdf.append(welfareRow.WELFARE_NM);
-//                }
-//            }
-//
-//
-//            @Override
-//            public void onFailure(Throwable t) {
-//                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
-//
-//    private void parseData() {
-//        travelPark_Response.enqueue(new Callback<TravelPark_Response>() {
-//            @Override
-//            public void onResponse(Response<TravelPark_Response> response, Retrofit retrofit) {
-//                if (response.code() == 200) {
-//                    travelRows = response.body().travelPark.row;
-//                    for (TravelRow travelRow : travelRows) {
-//                        asdf.append(travelRow.PARK_NM);
-//                    }
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Throwable t) {
-//                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
-
-
-    private void setRestAdapter() {
-        Gson gson = new GsonBuilder()
-                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-                .create();
-        retrofit = new Retrofit.Builder()
-                .baseUrl("http://data.gwd.go.kr/apiservice/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        service = retrofit.create(NetworkService.class);
-
-        travelPark_Response = service.getTravelList(1,1000);
-        medicalCenter_Response = service.getMedicalList(1,1000);
-        welfareCenter_Response = service.getWelfareList(1,1000);
+    private void setActionBar() {
+        dlDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBar ab = getSupportActionBar();
+        if (null != ab) {
+            ab.setDisplayHomeAsUpEnabled(true);
+        }
+        ab.setTitle("효은");
+        ab.setElevation(0);
+        dtToggle = new ActionBarDrawerToggle(this, dlDrawer, R.string.app_name, R.string.app_name);
+        dlDrawer.setDrawerListener(dtToggle);
     }
 
-    private void setDefault() {
-        asdf = (TextView)findViewById(R.id.textView);
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                if(dlDrawer.isDrawerOpen(GravityCompat.START)) dlDrawer.closeDrawer(GravityCompat.START);
+                else dlDrawer.openDrawer(GravityCompat.START);
+                return true;
+            default:
+                Toast.makeText(MainActivity.this, item.getItemId(), Toast.LENGTH_SHORT).show();
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        dtToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        dtToggle.onConfigurationChanged(newConfig);
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.main_send_sms:
+                Toast.makeText(MainActivity.this, "SMS", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.main_send_call:
+                Toast.makeText(MainActivity.this, "CALL", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                Toast.makeText(MainActivity.this, v.getId()+""  , Toast.LENGTH_SHORT).show();
+        }
     }
 }
