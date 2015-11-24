@@ -26,8 +26,10 @@
             android:name=".activity.ExcerciseVideoShowActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="nosensor" />
-        <activity android:name=".activity.SettingsActivity" />
-        <activity android:name=".activity.TutorialActivity"></activity>
+        <activity android:name=".activity.SettingsActivity">
+
+        </activity>
+        <activity android:name=".activity.TutorialActivity" />
     </application>
 
 </manifest>
