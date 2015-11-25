@@ -4,33 +4,20 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
     <LinearLayout
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:paddingTop="15dp"
-        android:paddingBottom="15dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/settings_listview_title"
+            android:id="@+id/settings_listview_header_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="키패드 테마 변경"
-            android:textColor="#000"
-            android:textSize="18dp"
+            android:textColor="#E37373"
+            android:textSize="12dp"
             android:textStyle="bold" />
-        <TextView
-            android:id="@+id/settings_listview_content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="키패드의 높이와 어쩌고 저쩌고 조정을 하는거지 뭐"
-            android:textColor="#454545"
-            android:textSize="13dp"/>
     </LinearLayout>
 </LinearLayout>

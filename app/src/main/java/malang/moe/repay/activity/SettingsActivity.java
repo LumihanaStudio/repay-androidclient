@@ -36,6 +36,7 @@ public class SettingsActivity extends AppCompatActivity {
     SharedPreferences sharedPref;
     SharedPreferences.Editor editor;
     ListView listview;
+    View header, getParentNumberView;
     ArrayList<SettingsData> array;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,12 +50,16 @@ public class SettingsActivity extends AppCompatActivity {
         sharedPref = getSharedPreferences("Repay", 0);
         editor = sharedPref.edit();
         listview = (ListView)findViewById(R.id.settings_listview);
+        header = getLayoutInflater().inflate(R.layout.listview_settings_header, null);
+        TextView headerText= (TextView) header.findViewById(R.id.settings_listview_header_title);
+        headerText.setText("기본 설정");
         array = new ArrayList<>();
         array.add(new SettingsData(1, "로그인이 필요합니다!", "모든 서비스를 이용하려면 로그인해주세요!"));
         array.add(new SettingsData(1, "부모 전화번호 설정!", "현재 설정되어있지 않습니다."));
         array.add(new SettingsData(1, "위치 설정!", "현재 설정되어 있지 않습니다."));
         SettingsAdapter adapter = new SettingsAdapter(SettingsActivity.this, array);
         listview.setAdapter(adapter);
+        listview.addHeaderView(header);
     }
 
     public void setActionbar(ActionBar actionbar) {
