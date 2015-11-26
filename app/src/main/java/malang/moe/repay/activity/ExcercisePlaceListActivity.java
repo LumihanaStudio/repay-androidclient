@@ -2,6 +2,7 @@ package malang.moe.repay.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,14 +45,16 @@ public class ExcercisePlaceListActivity extends AppCompatActivity {
         setRestAdapter();
         parseData();
     }
-
+//
     private void parseData() {
         medicalCenter_Response.enqueue(new Callback<MedicalCenter_Response>() {
             @Override
             public void onResponse(Response<MedicalCenter_Response> response, Retrofit retrofit) {
+                Log.e("asdf", response.code()+"");
                 if(response.code()==200){
                     medicalRows = response.body().medicalCenter.row;
                     for(MedicalRow medicalRow : medicalRows){
+                        Log.e("asdf", medicalRow.MED_NM);
                         asdf.append(medicalRow.MED_NM+"\n");
                     }
                 }
@@ -68,6 +71,7 @@ public class ExcercisePlaceListActivity extends AppCompatActivity {
 //        welfareCenter_Response.enqueue(new Callback<WelfareCenter_Response>() {
 //            @Override
 //            public void onResponse(Response<WelfareCenter_Response> response, Retrofit retrofit) {
+//                Log.e("asdf", response.code()+"");
 //                if(response.code()==200){
 //                    welfareRows = response.body().welfareCenter.row;
 //                }
@@ -118,6 +122,6 @@ public class ExcercisePlaceListActivity extends AppCompatActivity {
     }
 
     private void setDefault() {
-
+        asdf = (TextView)findViewById(R.id.asdf);
     }
 }

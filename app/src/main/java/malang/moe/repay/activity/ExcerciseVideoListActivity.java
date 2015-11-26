@@ -4,14 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,6 +61,7 @@ public class ExcerciseVideoListActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Throwable t) {
+                Toast.makeText(ExcerciseVideoListActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -83,18 +82,25 @@ public class ExcerciseVideoListActivity extends AppCompatActivity {
         });
     }
     private void setRestAdapter() {
-        Gson gson = new GsonBuilder()
-                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-                .create();
         retrofit = new Retrofit.Builder()
                 .baseUrl("https://www.googleapis.com")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         service = retrofit.create(NetworkService.class);
 
-        response = service.getExcerciseVideoList("노인운동", "");
+        response = service.getExcerciseVideoList("노인 체조", "");
     }
     public void setActionbar(ActionBar actionbar) {
+        actionbar.setDisplayHomeAsUpEnabled(true);
+        actionbar.setTitle("집에서 운동하기");
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

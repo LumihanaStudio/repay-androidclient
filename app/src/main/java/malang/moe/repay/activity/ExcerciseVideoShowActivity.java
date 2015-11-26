@@ -33,6 +33,7 @@ public class ExcerciseVideoShowActivity extends YouTubeFailureRecoveryActivity {
         if (!wasRestored) {
             player.cueVideo(videoId);
         }
+        player.setFullscreen(true);
     }
 
     @Override

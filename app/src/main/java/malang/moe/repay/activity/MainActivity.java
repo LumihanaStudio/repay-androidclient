@@ -10,7 +10,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -51,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public boolean onNavigationItemSelected(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.main_drawer_stretch:
-                        Toast.makeText(MainActivity.this, "스트레칭", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getApplicationContext(), HealthSelectActivity.class));
                         break;
                     case R.id.main_drawer_facilities:
                         Toast.makeText(MainActivity.this, "복지시설", Toast.LENGTH_SHORT).show();
@@ -121,18 +120,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(MainActivity.this, "CALL", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.main_health:
+                startActivity(new Intent(getApplicationContext(), HealthSelectActivity.class));
                 break;
             case R.id.main_bokji:
+
                 break;
             case R.id.main_photo:
+
                 break;
             default:
                 Toast.makeText(MainActivity.this, v.getId()+""  , Toast.LENGTH_SHORT).show();
         }
     }
 
-    public void onResume(){
-        dlDrawer.closeDrawer(Gravity.START);
-        super.onResume();
+    public void onPause(){
+        dlDrawer.closeDrawer(GravityCompat.START);
+        super.onPause();
     }
 }
