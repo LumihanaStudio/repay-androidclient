@@ -17,7 +17,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.NetworkActivity" />
+        <activity android:name=".activity.ExcercisePlaceListActivity" />
         <activity
             android:name=".activity.ExcerciseVideoListActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
@@ -26,10 +26,10 @@
             android:name=".activity.ExcerciseVideoShowActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="nosensor" />
-        <activity android:name=".activity.SettingsActivity">
-
-        </activity>
+        <activity android:name=".activity.SettingsActivity" />
         <activity android:name=".activity.TutorialActivity" />
+        <activity android:name=".activity.HealthSelectActivity" />
+        <activity android:name=".activity.ExcercisePlaceShowActivity"></activity>
     </application>
 
 </manifest>

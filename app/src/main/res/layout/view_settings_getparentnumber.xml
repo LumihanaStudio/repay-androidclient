@@ -5,5 +5,9 @@
     android:orientation="vertical">
     <com.rengwuxian.materialedittext.MaterialEditText
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:hint="전화번호를 입력"
+        android:inputType="number"
+        android:maxLength="11"
+        android:singleLine="true" />
 </LinearLayout>

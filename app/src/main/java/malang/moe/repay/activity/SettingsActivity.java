@@ -6,11 +6,17 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.util.ArrayList;
 
@@ -51,19 +57,45 @@ public class SettingsActivity extends AppCompatActivity {
         editor = sharedPref.edit();
         listview = (ListView)findViewById(R.id.settings_listview);
         header = getLayoutInflater().inflate(R.layout.listview_settings_header, null);
+        getParentNumberView = getLayoutInflater().inflate(R.layout.view_settings_getparentnumber, null);
         TextView headerText= (TextView) header.findViewById(R.id.settings_listview_header_title);
         headerText.setText("기본 설정");
         array = new ArrayList<>();
         array.add(new SettingsData(1, "로그인이 필요합니다!", "모든 서비스를 이용하려면 로그인해주세요!"));
-        array.add(new SettingsData(1, "부모 전화번호 설정!", "현재 설정되어있지 않습니다."));
+        array.add(new SettingsData(1, "부모 전화번호 설정", "현재 설정되어있지 않습니다."));
         array.add(new SettingsData(1, "위치 설정!", "현재 설정되어 있지 않습니다."));
         SettingsAdapter adapter = new SettingsAdapter(SettingsActivity.this, array);
-        listview.setAdapter(adapter);
         listview.addHeaderView(header);
+        listview.setAdapter(adapter);
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                switch (position){
+                    case 1:
+                        break;
+                    case 2:
+                        new MaterialDialog.Builder(SettingsActivity.this)
+                                .title("부모 전화번호 설정")
+                                .customView(getParentNumberView, true)
+                                .positiveText("설정")
+                                .negativeText("취소")
+                                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                    @Override
+                                    public void onClick(MaterialDialog dialog, DialogAction which) {
+                                        Toast.makeText(SettingsActivity.this, "설정되었습니다!", Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                .show();
+                }
+            }
+        });
     }
 
-    public void setActionbar(ActionBar actionbar) {
-        actionbar.setTitle("설정");
+    private void setActionbar(ActionBar ab) {
+        ab.setTitle("설정");
+        ab.setElevation(0);
+        ab.setDefaultDisplayHomeAsUpEnabled(true);
+        ab.setDisplayHomeAsUpEnabled(true);
     }
 
 
@@ -104,4 +136,12 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

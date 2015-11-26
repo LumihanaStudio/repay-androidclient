@@ -10,8 +10,10 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ActionBarDrawerToggle dtToggle;
     NavigationView navigationView;
     TextView sendSMS, sendCall;
+    ImageView health, bokji, photo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,10 +35,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setDefault() {
+        health = (ImageView)findViewById(R.id.main_health);
+        bokji = (ImageView)findViewById(R.id.main_bokji);
+        photo = (ImageView)findViewById(R.id.main_photo);
         sendCall = (TextView) findViewById(R.id.main_send_call);
         sendSMS = (TextView)findViewById(R.id.main_send_sms);
         sendCall.setOnClickListener(this);
         sendSMS.setOnClickListener(this);
+        health.setOnClickListener(this);
+        bokji.setOnClickListener(this);
+        photo.setOnClickListener(this);
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -46,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         break;
                     case R.id.main_drawer_facilities:
                         Toast.makeText(MainActivity.this, "복지시설", Toast.LENGTH_SHORT).show();
-                    break;
+                        break;
                     case R.id.main_drawer_pictures:
                         Toast.makeText(MainActivity.this, "추억사진", Toast.LENGTH_SHORT).show();
                         break;
@@ -111,8 +120,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.main_send_call:
                 Toast.makeText(MainActivity.this, "CALL", Toast.LENGTH_SHORT).show();
                 break;
+            case R.id.main_health:
+                break;
+            case R.id.main_bokji:
+                break;
+            case R.id.main_photo:
+                break;
             default:
                 Toast.makeText(MainActivity.this, v.getId()+""  , Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void onResume(){
+        dlDrawer.closeDrawer(Gravity.START);
+        super.onResume();
     }
 }

@@ -1,17 +1,10 @@
 package malang.moe.repay.activity;
 
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import java.util.List;
 
@@ -29,7 +22,7 @@ import retrofit.GsonConverterFactory;
 import retrofit.Response;
 import retrofit.Retrofit;
 
-public class NetworkActivity extends AppCompatActivity {
+public class ExcercisePlaceListActivity extends AppCompatActivity {
 
     // Widgets
     View navView;
@@ -46,7 +39,7 @@ public class NetworkActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_excercise_place_list);
         setDefault();
         setRestAdapter();
         parseData();
@@ -66,7 +59,7 @@ public class NetworkActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Throwable t) {
-                Toast.makeText(NetworkActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ExcercisePlaceListActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
