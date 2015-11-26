@@ -68,14 +68,33 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_weight="3"
-            android:weightSum="3"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:weightSum="3">
+
             <ImageView
-                android:scaleType="centerCrop"
-                android:src="@drawable/main_oval_shape"
+                android:id="@+id/main_health"
                 android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="5dp"
                 android:layout_weight="1"
-                android:layout_height="match_parent" />
+                android:src="@drawable/main_health_selector" />
+
+            <ImageView
+                android:id="@+id/main_bokji"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/main_bokji_selector" />
+
+            <ImageView
+                android:id="@+id/main_photo"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:src="@drawable/main_pohoto_selector" />
         </LinearLayout>
 
         <LinearLayout
@@ -87,29 +106,29 @@
 
             <TextView
                 android:id="@+id/main_send_sms"
-                android:textStyle="bold"
-                android:textColor="#FFF"
-                android:textSize="18sp"
-                android:gravity="center"
-                android:text="문자 보내기"
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="3dp"
                 android:layout_weight="1"
-                android:background="@drawable/main_send_sms_selector"/>
+                android:background="@drawable/main_send_sms_selector"
+                android:gravity="center"
+                android:text="문자 보내기"
+                android:textColor="#FFF"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/main_send_call"
-                android:textStyle="bold"
-                android:textColor="#FFF"
-                android:textSize="18sp"
-                android:gravity="center"
-                android:text="전화 하기"
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="3dp"
                 android:layout_weight="1"
-                android:background="@drawable/main_call_selector"/>
+                android:background="@drawable/main_call_selector"
+                android:gravity="center"
+                android:text="전화 하기"
+                android:textColor="#FFF"
+                android:textSize="18sp"
+                android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
 
