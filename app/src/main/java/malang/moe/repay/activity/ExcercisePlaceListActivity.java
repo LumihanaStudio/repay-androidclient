@@ -50,7 +50,6 @@ public class ExcercisePlaceListActivity extends AppCompatActivity {
         medicalCenter_Response.enqueue(new Callback<MedicalCenter_Response>() {
             @Override
             public void onResponse(Response<MedicalCenter_Response> response, Retrofit retrofit) {
-                Log.e("asdf", response.code()+"");
                 if(response.code()==200){
                     medicalRows = response.body().medicalCenter.row;
                     for(MedicalRow medicalRow : medicalRows){
