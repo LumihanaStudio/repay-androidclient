@@ -4,7 +4,7 @@
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.SEND_SMS" />
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -37,7 +37,6 @@
         <activity android:name=".activity.SettingsActivity" />
         <activity android:name=".activity.TutorialActivity" />
         <activity android:name=".activity.HealthSelectActivity" />
-        <activity android:name=".activity.ExcercisePlaceShowActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -51,8 +50,9 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".activity.MapShowActivity"
-            android:label="@string/title_activity_map_show"></activity>
+            android:name=".activity.ExcercisePlaceShowActivity"
+            android:label="@string/title_activity_map_show" />
+        <activity android:name=".activity.MedicalCenterListActivity"></activity>
     </application>
 
 </manifest>

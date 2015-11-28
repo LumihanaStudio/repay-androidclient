@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         startActivity(new Intent(getApplicationContext(), HealthSelectActivity.class));
                         break;
                     case R.id.main_drawer_facilities:
-                        Toast.makeText(MainActivity.this, "복지시설", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getApplicationContext(), MedicalCenterListActivity.class));
                         break;
                     case R.id.main_drawer_pictures:
                         Toast.makeText(MainActivity.this, "추억사진", Toast.LENGTH_SHORT).show();

@@ -42,12 +42,12 @@ public class ExcercisePlaceListActivity extends AppCompatActivity {
     // Service
     NetworkService service;
     Retrofit retrofit;
+    List<MedicalRow> medicalRows;
     Call<MedicalCenter_Response> medicalCenter_Response;
     Call<TravelPark_Response> travelPark_Response;
     Call<WelfareCenter_Response> welfareCenter_Response;
     List<TravelRow> travelRows;
     MaterialDialog loading;
-    List<MedicalRow> medicalRows;
     List<WelfareRow> welfareRows;
 
     @Override
@@ -76,21 +76,6 @@ public class ExcercisePlaceListActivity extends AppCompatActivity {
             }
         });
     }
-//    private void parseData() {
-//        medicalCenter_Response.enqueue(new Callback<MedicalCenter_Response>() {
-//            @Override
-//            public void onResponse(Response<MedicalCenter_Response> response, Retrofit retrofit) {
-//                if(response.code()==200){
-//                    medicalRows = response.body().medicalCenter.row;
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Throwable t) {
-//                Toast.makeText(ExcercisePlaceListActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
 
     public void setActionbar(ActionBar actionbar) {
         actionbar.setDisplayHomeAsUpEnabled(true);
@@ -156,11 +141,11 @@ public class ExcercisePlaceListActivity extends AppCompatActivity {
                 TextView lo = (TextView) view.findViewById(R.id.excercise_listview_place_lo);
                 TextView title = (TextView) view.findViewById(R.id.excercise_listview_place_title);
                 TextView address = (TextView) view.findViewById(R.id.excercise_listview_place_content);
-                startActivity(new Intent(getApplicationContext(), MapShowActivity.class)
-                .putExtra("LA", la.getText().toString().trim())
-                .putExtra("LO", lo.getText().toString().trim())
-                .putExtra("title", title.getText().toString())
-                .putExtra("address", address.getText().toString()));
+                startActivity(new Intent(getApplicationContext(), ExcercisePlaceShowActivity.class)
+                        .putExtra("LA", la.getText().toString().trim())
+                        .putExtra("LO", lo.getText().toString().trim())
+                        .putExtra("title", title.getText().toString())
+                        .putExtra("address", address.getText().toString()));
             }
         });
     }
