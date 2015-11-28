@@ -11,6 +11,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +35,7 @@ public class ExcerciseVideoListActivity extends AppCompatActivity {
     ListView listview;
     ArrayList<ExcerciseVideoData> arrayList;
     List<ExcerciseVideoResponse.Items> list;
+    MaterialDialog loading;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,21 +55,30 @@ public class ExcerciseVideoListActivity extends AppCompatActivity {
                 if(response.code()==200){
                     list = response.body().items;
                     for(ExcerciseVideoResponse.Items items : list){
-                        arrayList.add(new ExcerciseVideoData("", items.snippet.title, items.snippet.description, items.snippet.channelTitle, items.id.videoId));
+                        arrayList.add(new ExcerciseVideoData(items.snippet.thumbnails.high.url, items.snippet.title, items.snippet.description, items.snippet.channelTitle, items.id.videoId));
                     }
                     adapter = new ExcerciseVideoAdapter(ExcerciseVideoListActivity.this, arrayList);
                     listview.setAdapter(adapter);
+                    loading.dismiss();
                 }
             }
 
             @Override
             public void onFailure(Throwable t) {
                 Toast.makeText(ExcerciseVideoListActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                loading.dismiss();
+                finish();
             }
         });
     }
 
     private void setDefault() {
+        loading = new MaterialDialog.Builder(ExcerciseVideoListActivity.this)
+                .title("데이터를 로드합니다")
+                .content("잠시만 기다려주세요")
+                .progress(true, 0)
+                .cancelable(false)
+                .show();
         listview = (ListView)findViewById(R.id.exercise_listview);
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

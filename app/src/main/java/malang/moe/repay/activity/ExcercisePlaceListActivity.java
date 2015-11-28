@@ -1,8 +1,12 @@
 package malang.moe.repay.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,6 +49,7 @@ public class ExcercisePlaceListActivity extends AppCompatActivity {
     MaterialDialog loading;
     List<MedicalRow> medicalRows;
     List<WelfareRow> welfareRows;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +59,7 @@ public class ExcercisePlaceListActivity extends AppCompatActivity {
         setRestAdapter();
         parseData();
     }
+
     private void parseData() {
         travelPark_Response.enqueue(new Callback<TravelPark_Response>() {
             @Override
@@ -91,9 +97,9 @@ public class ExcercisePlaceListActivity extends AppCompatActivity {
         actionbar.setTitle("밖에서 운동하기");
     }
 
-    public void setListView(List<TravelRow> list){
+    public void setListView(List<TravelRow> list) {
         arrayList = new ArrayList<>();
-        for(TravelRow travelRow : list){
+        for (TravelRow travelRow : list) {
             arrayList.add(new ExcercisePlaceData(travelRow.PARK_NM, travelRow.PROVINCIALCAPITAL_ROADADDR, travelRow.LOC_ARE,
                     travelRow.LA, travelRow.LO));
         }
@@ -124,7 +130,6 @@ public class ExcercisePlaceListActivity extends AppCompatActivity {
 //
 
 
-
     private void setRestAdapter() {
         retrofit = new Retrofit.Builder()
                 .baseUrl("http://data.gwd.go.kr/apiservice/")
@@ -132,17 +137,41 @@ public class ExcercisePlaceListActivity extends AppCompatActivity {
                 .build();
         service = retrofit.create(NetworkService.class);
 
-        travelPark_Response = service.getTravelList(1,1000);
-        medicalCenter_Response = service.getMedicalList(1,1000);
-        welfareCenter_Response = service.getWelfareList(1,1000);
+        travelPark_Response = service.getTravelList(1, 1000);
+        medicalCenter_Response = service.getMedicalList(1, 1000);
+        welfareCenter_Response = service.getWelfareList(1, 1000);
     }
 
     private void setDefault() {
         loading = new MaterialDialog.Builder(ExcercisePlaceListActivity.this)
                 .title("데이터를 로드합니다")
                 .content("잠시만 기다려주세요")
-                .progress(true, 0)
+                .progress(true, 0).cancelable(false)
                 .show();
-        listView = (ListView)findViewById(R.id.excercise_place_listview);
+        listView = (ListView) findViewById(R.id.excercise_place_listview);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView la = (TextView) view.findViewById(R.id.excercise_listview_place_la);
+                TextView lo = (TextView) view.findViewById(R.id.excercise_listview_place_lo);
+                TextView title = (TextView) view.findViewById(R.id.excercise_listview_place_title);
+                TextView address = (TextView) view.findViewById(R.id.excercise_listview_place_content);
+                startActivity(new Intent(getApplicationContext(), MapShowActivity.class)
+                .putExtra("LA", la.getText().toString().trim())
+                .putExtra("LO", lo.getText().toString().trim())
+                .putExtra("title", title.getText().toString())
+                .putExtra("address", address.getText().toString()));
+            }
+        });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

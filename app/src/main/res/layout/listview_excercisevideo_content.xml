@@ -20,9 +20,9 @@
     android:padding="16dp"
     android:orientation="horizontal">
 
-    <ImageView
+    <malang.moe.repay.utils.AnimateNetworkImageView
         android:id="@+id/thumbnail"
-        android:layout_width="wrap_content"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:src="@drawable/video_nothumb" />
 

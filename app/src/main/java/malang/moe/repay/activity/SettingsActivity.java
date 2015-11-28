@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -82,6 +83,8 @@ public class SettingsActivity extends AppCompatActivity {
                                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                                     @Override
                                     public void onClick(MaterialDialog dialog, DialogAction which) {
+                                        EditText ed = (EditText) getParentNumberView.findViewById(R.id.parent_number);
+                                        editor.putString("parent_number", ed.getText().toString().trim())
                                         Toast.makeText(SettingsActivity.this, "설정되었습니다!", Toast.LENGTH_SHORT).show();
                                     }
                                 })
