@@ -45,8 +45,13 @@ public class ExcercisePlaceAdapter extends ArrayAdapter<ExcercisePlaceData> {
         if (data != null) {
             //화면 출력
             TextView title = (TextView) view.findViewById(R.id.excercise_listview_place_title);
-            TextView descrip = (TextView) view.findViewById(R.id.excercise_listview_place_content);
-            TextView videoId = (TextView)view.findViewById(R.id.excercise_listview_place_videoId);
+            TextView address = (TextView) view.findViewById(R.id.excercise_listview_place_content);
+            TextView la = (TextView)view.findViewById(R.id.excercise_listview_place_la);
+            TextView lo = (TextView)view.findViewById(R.id.excercise_listview_place_lo);
+            title.setText(data.title);
+            address.setText(data.address);
+            la.setText(data.LA);
+            lo.setText(data.LO);
         }
         return view;
     }

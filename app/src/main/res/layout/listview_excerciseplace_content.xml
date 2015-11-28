@@ -46,7 +46,14 @@
             android:textSize="12dp" />
 
         <TextView
-            android:id="@+id/excercise_listview_place_videoId"
+            android:id="@+id/excercise_listview_place_la"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="0dp"
+            android:visibility="gone"/>
+        <TextView
+            android:id="@+id/excercise_listview_place_lo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#000"
