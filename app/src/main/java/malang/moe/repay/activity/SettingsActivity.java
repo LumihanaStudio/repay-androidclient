@@ -84,8 +84,9 @@ public class SettingsActivity extends AppCompatActivity {
                                     @Override
                                     public void onClick(MaterialDialog dialog, DialogAction which) {
                                         EditText ed = (EditText) getParentNumberView.findViewById(R.id.parent_number);
-                                        editor.putString("parent_number", ed.getText().toString().trim())
-                                        Toast.makeText(SettingsActivity.this, "설정되었습니다!", Toast.LENGTH_SHORT).show();
+                                        editor.putString("parent_number", ed.getText().toString().trim());
+                                        editor.commit();
+                                        Toast.makeText(SettingsActivity.this, ed.getText().toString().trim()+"번으로 설정되었습니다!", Toast.LENGTH_SHORT).show();
                                     }
                                 })
                                 .show();
