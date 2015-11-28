@@ -4,14 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +35,7 @@ public class ExcerciseVideoListActivity extends AppCompatActivity {
     ListView listview;
     ArrayList<ExcerciseVideoData> arrayList;
     List<ExcerciseVideoResponse.Items> list;
+    MaterialDialog loading;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,20 +55,30 @@ public class ExcerciseVideoListActivity extends AppCompatActivity {
                 if(response.code()==200){
                     list = response.body().items;
                     for(ExcerciseVideoResponse.Items items : list){
-                        arrayList.add(new ExcerciseVideoData("", items.snippet.title, items.snippet.description, items.snippet.channelTitle, items.id.videoId));
+                        arrayList.add(new ExcerciseVideoData(items.snippet.thumbnails.high.url, items.snippet.title, items.snippet.description, items.snippet.channelTitle, items.id.videoId));
                     }
                     adapter = new ExcerciseVideoAdapter(ExcerciseVideoListActivity.this, arrayList);
                     listview.setAdapter(adapter);
+                    loading.dismiss();
                 }
             }
 
             @Override
             public void onFailure(Throwable t) {
+                Toast.makeText(ExcerciseVideoListActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                loading.dismiss();
+                finish();
             }
         });
     }
 
     private void setDefault() {
+        loading = new MaterialDialog.Builder(ExcerciseVideoListActivity.this)
+                .title("데이터를 로드합니다")
+                .content("잠시만 기다려주세요")
+                .progress(true, 0)
+                .cancelable(false)
+                .show();
         listview = (ListView)findViewById(R.id.exercise_listview);
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -83,18 +94,25 @@ public class ExcerciseVideoListActivity extends AppCompatActivity {
         });
     }
     private void setRestAdapter() {
-        Gson gson = new GsonBuilder()
-                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-                .create();
         retrofit = new Retrofit.Builder()
                 .baseUrl("https://www.googleapis.com")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         service = retrofit.create(NetworkService.class);
 
-        response = service.getExcerciseVideoList("노인운동", "");
+        response = service.getExcerciseVideoList("노인 체조", "");
     }
     public void setActionbar(ActionBar actionbar) {
+        actionbar.setDisplayHomeAsUpEnabled(true);
+        actionbar.setTitle("집에서 운동하기");
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

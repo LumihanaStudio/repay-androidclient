@@ -1,21 +1,36 @@
 package malang.moe.repay.activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+<<<<<<< HEAD
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+=======
+import android.telephony.SmsManager;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+>>>>>>> 6787408c2c6019d8d1a4530bcff49587082d0a68
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import malang.moe.repay.R;
 
@@ -24,8 +39,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     DrawerLayout dlDrawer;
     ActionBarDrawerToggle dtToggle;
     NavigationView navigationView;
+    String number;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
     TextView sendSMS, sendCall;
     ImageView health, bokji, photo;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 6787408c2c6019d8d1a4530bcff49587082d0a68
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,11 +57,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setDefault() {
+<<<<<<< HEAD
         health = (ImageView)findViewById(R.id.main_health);
         bokji = (ImageView)findViewById(R.id.main_bokji);
         photo = (ImageView)findViewById(R.id.main_photo);
+=======
+        sharedPreferences = getSharedPreferences("Repay", 0);
+        number = sharedPreferences.getString("parent_number", "");
+        health = (ImageView) findViewById(R.id.main_health);
+        bokji = (ImageView) findViewById(R.id.main_bokji);
+        photo = (ImageView) findViewById(R.id.main_photo);
+>>>>>>> 6787408c2c6019d8d1a4530bcff49587082d0a68
         sendCall = (TextView) findViewById(R.id.main_send_call);
-        sendSMS = (TextView)findViewById(R.id.main_send_sms);
+        sendSMS = (TextView) findViewById(R.id.main_send_sms);
         sendCall.setOnClickListener(this);
         sendSMS.setOnClickListener(this);
         health.setOnClickListener(this);
@@ -51,10 +81,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public boolean onNavigationItemSelected(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.main_drawer_stretch:
-                        Toast.makeText(MainActivity.this, "스트레칭", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getApplicationContext(), HealthSelectActivity.class));
                         break;
                     case R.id.main_drawer_facilities:
+<<<<<<< HEAD
                         Toast.makeText(MainActivity.this, "복지시설", Toast.LENGTH_SHORT).show();
+=======
+                        startActivity(new Intent(getApplicationContext(), MedicalCenterListActivity.class));
+>>>>>>> 6787408c2c6019d8d1a4530bcff49587082d0a68
                         break;
                     case R.id.main_drawer_pictures:
                         Toast.makeText(MainActivity.this, "추억사진", Toast.LENGTH_SHORT).show();
@@ -88,7 +122,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                if(dlDrawer.isDrawerOpen(GravityCompat.START)) dlDrawer.closeDrawer(GravityCompat.START);
+                if (dlDrawer.isDrawerOpen(GravityCompat.START))
+                    dlDrawer.closeDrawer(GravityCompat.START);
                 else dlDrawer.openDrawer(GravityCompat.START);
                 return true;
             default:
@@ -115,10 +150,54 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.main_send_sms:
-                Toast.makeText(MainActivity.this, "SMS", Toast.LENGTH_SHORT).show();
+                if (number.trim().equals(""))
+                    new MaterialDialog.Builder(MainActivity.this)
+                            .content("아직 번호가 설정되지 않았습니다! 설정창에서 부모님의 번호를 설정해주세요!")
+                            .positiveText("설정")
+                            .negativeText("취소")
+                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(MaterialDialog dialog, DialogAction which) {
+                                    startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
+                                }
+                            })
+                            .show();
+                else {
+                    final View view = getLayoutInflater().inflate(R.layout.view_main_gettext, null);
+                    new MaterialDialog.Builder(MainActivity.this)
+                            .title("메세지 전송")
+                            .customView(view, false)
+                            .positiveText("전송")
+                            .negativeText("취소")
+                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(MaterialDialog dialog, DialogAction which) {
+                                    SmsManager smsManager = SmsManager.getDefault();
+                                    EditText asdf = (EditText) view.findViewById(R.id.parent_number);
+                                    String result = asdf.getText().toString().trim();
+                                    if (!result.equals("")) {
+                                        smsManager.sendTextMessage(number, null, asdf.getText().toString(), null, null);
+                                        Toast.makeText(MainActivity.this, "전송되었습니다!", Toast.LENGTH_SHORT).show();
+                                    } else
+                                        Toast.makeText(MainActivity.this, "메시지가 입력되지 않았습니다!", Toast.LENGTH_SHORT).show();
+                                }
+                            })
+                            .show();
+                }
                 break;
             case R.id.main_send_call:
-                Toast.makeText(MainActivity.this, "CALL", Toast.LENGTH_SHORT).show();
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    return;
+                } else startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+number)));
+                break;
+            case R.id.main_health:
+                startActivity(new Intent(getApplicationContext(), HealthSelectActivity.class));
+                break;
+            case R.id.main_bokji:
+
+                break;
+            case R.id.main_photo:
+
                 break;
             case R.id.main_health:
                 break;
@@ -127,12 +206,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.main_photo:
                 break;
             default:
-                Toast.makeText(MainActivity.this, v.getId()+""  , Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, v.getId() + "", Toast.LENGTH_SHORT).show();
         }
     }
 
+<<<<<<< HEAD
     public void onResume(){
         dlDrawer.closeDrawer(Gravity.START);
         super.onResume();
+=======
+    public void onPause() {
+        dlDrawer.closeDrawer(GravityCompat.START);
+        super.onPause();
+    }
+
+    public void onResume() {
+        super.onResume();
+        number = sharedPreferences.getString("parent_number", "");
+>>>>>>> 6787408c2c6019d8d1a4530bcff49587082d0a68
     }
 }

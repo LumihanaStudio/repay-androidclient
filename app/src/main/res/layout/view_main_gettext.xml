@@ -3,15 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
+
     <com.rengwuxian.materialedittext.MaterialEditText
-<<<<<<< HEAD
-=======
         android:id="@+id/parent_number"
->>>>>>> 6787408c2c6019d8d1a4530bcff49587082d0a68
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="전화번호를 입력"
-        android:inputType="number"
-        android:maxLength="11"
-        android:singleLine="true" />
+        android:hint="메세지 입력"
+        android:inputType="textNoSuggestions"
+        android:layout_margin="16dp" />
 </LinearLayout>

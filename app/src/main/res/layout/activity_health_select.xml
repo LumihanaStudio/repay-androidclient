@@ -77,7 +77,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
+<<<<<<< HEAD
                 android:text="근처에 있는 운동하기 좋은 장소를 알려드립니다"
+=======
+                android:text="집에서도 쉽게 할 수 있는 \n운동영상들을 모아보았습니다."
+>>>>>>> 6787408c2c6019d8d1a4530bcff49587082d0a68
                 android:textColor="#FFF"
                 android:layout_marginTop="10dp"
                 android:textSize="14dp" />

@@ -20,12 +20,6 @@
     android:padding="16dp"
     android:orientation="horizontal">
 
-    <malang.moe.repay.utils.AnimateNetworkImageView
-        android:id="@+id/thumbnail"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:src="@drawable/video_nothumb" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -34,7 +28,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/excercise_listview_title"
+            android:id="@+id/excercise_listview_place_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
@@ -44,7 +38,7 @@
             android:textSize="16dp" />
 
         <TextView
-            android:id="@+id/excercise_listview_content"
+            android:id="@+id/excercise_listview_place_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#A1A1A1"
@@ -52,7 +46,14 @@
             android:textSize="12dp" />
 
         <TextView
-            android:id="@+id/excercise_listview_videoId"
+            android:id="@+id/excercise_listview_place_la"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="0dp"
+            android:visibility="gone"/>
+        <TextView
+            android:id="@+id/excercise_listview_place_lo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#000"
