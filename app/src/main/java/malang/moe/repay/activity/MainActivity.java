@@ -15,10 +15,16 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+<<<<<<< HEAD
+import android.view.Gravity;
+import android.view.MenuItem;
+import android.view.View;
+=======
 import android.telephony.SmsManager;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+>>>>>>> 6787408c2c6019d8d1a4530bcff49587082d0a68
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,7 +44,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences.Editor editor;
     TextView sendSMS, sendCall;
     ImageView health, bokji, photo;
+<<<<<<< HEAD
+=======
 
+>>>>>>> 6787408c2c6019d8d1a4530bcff49587082d0a68
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,11 +57,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setDefault() {
+<<<<<<< HEAD
+        health = (ImageView)findViewById(R.id.main_health);
+        bokji = (ImageView)findViewById(R.id.main_bokji);
+        photo = (ImageView)findViewById(R.id.main_photo);
+=======
         sharedPreferences = getSharedPreferences("Repay", 0);
         number = sharedPreferences.getString("parent_number", "");
         health = (ImageView) findViewById(R.id.main_health);
         bokji = (ImageView) findViewById(R.id.main_bokji);
         photo = (ImageView) findViewById(R.id.main_photo);
+>>>>>>> 6787408c2c6019d8d1a4530bcff49587082d0a68
         sendCall = (TextView) findViewById(R.id.main_send_call);
         sendSMS = (TextView) findViewById(R.id.main_send_sms);
         sendCall.setOnClickListener(this);
@@ -69,7 +84,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         startActivity(new Intent(getApplicationContext(), HealthSelectActivity.class));
                         break;
                     case R.id.main_drawer_facilities:
+<<<<<<< HEAD
+                        Toast.makeText(MainActivity.this, "복지시설", Toast.LENGTH_SHORT).show();
+=======
                         startActivity(new Intent(getApplicationContext(), MedicalCenterListActivity.class));
+>>>>>>> 6787408c2c6019d8d1a4530bcff49587082d0a68
                         break;
                     case R.id.main_drawer_pictures:
                         Toast.makeText(MainActivity.this, "추억사진", Toast.LENGTH_SHORT).show();
@@ -180,11 +199,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.main_photo:
 
                 break;
+            case R.id.main_health:
+                break;
+            case R.id.main_bokji:
+                break;
+            case R.id.main_photo:
+                break;
             default:
                 Toast.makeText(MainActivity.this, v.getId() + "", Toast.LENGTH_SHORT).show();
         }
     }
 
+<<<<<<< HEAD
+    public void onResume(){
+        dlDrawer.closeDrawer(Gravity.START);
+        super.onResume();
+=======
     public void onPause() {
         dlDrawer.closeDrawer(GravityCompat.START);
         super.onPause();
@@ -193,5 +223,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onResume() {
         super.onResume();
         number = sharedPreferences.getString("parent_number", "");
+>>>>>>> 6787408c2c6019d8d1a4530bcff49587082d0a68
     }
 }

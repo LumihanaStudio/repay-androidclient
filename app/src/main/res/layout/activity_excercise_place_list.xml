@@ -2,8 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+<<<<<<< HEAD
+    
+=======
     <ListView
         android:id="@+id/excercise_place_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></ListView>
+>>>>>>> 6787408c2c6019d8d1a4530bcff49587082d0a68
 </LinearLayout>

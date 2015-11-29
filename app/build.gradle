@@ -27,15 +27,25 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile files('libs/YouTubeAndroidPlayerApi.jar')
+<<<<<<< HEAD
+=======
     compile('com.github.afollestad.material-dialogs:commons:0.8.5.1@aar') {
         transitive = true
     }
+>>>>>>> 6787408c2c6019d8d1a4530bcff49587082d0a68
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.squareup.retrofit:retrofit:2.0.0-beta2'
     compile 'com.android.support:design:23.1.1'
     compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'
     compile 'com.google.code.gson:gson:2.4'
+<<<<<<< HEAD
+    compile('com.github.afollestad.material-dialogs:commons:0.8.5.1@aar') {
+        transitive = true
+    }
+    compile 'com.rengwuxian.materialedittext:library:2.1.4'
+=======
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
     compile 'com.mcxiaoke.volley:library:1.0.19'
     compile 'com.google.android.gms:play-services:8.3.0'
+>>>>>>> 6787408c2c6019d8d1a4530bcff49587082d0a68
 }

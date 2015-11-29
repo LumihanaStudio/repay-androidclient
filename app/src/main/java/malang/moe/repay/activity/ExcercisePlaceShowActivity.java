@@ -1,5 +1,13 @@
 package malang.moe.repay.activity;
 
+<<<<<<< HEAD
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+
+import malang.moe.repay.R;
+
+public class ExcercisePlaceShowActivity extends AppCompatActivity {
+=======
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -22,10 +30,14 @@ public class ExcercisePlaceShowActivity extends AppCompatActivity implements OnM
     Intent intent;
     Double la, lo;
     TextView titleText, addressText;
+>>>>>>> 6787408c2c6019d8d1a4530bcff49587082d0a68
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+<<<<<<< HEAD
+        setContentView(R.layout.activity_excercise_place_show);
+=======
         setContentView(R.layout.activity_map_show);
         setActionbar(getSupportActionBar());
         intent = getIntent();
@@ -62,5 +74,6 @@ public class ExcercisePlaceShowActivity extends AppCompatActivity implements OnM
                 break;
         }
         return super.onOptionsItemSelected(item);
+>>>>>>> 6787408c2c6019d8d1a4530bcff49587082d0a68
     }
 }

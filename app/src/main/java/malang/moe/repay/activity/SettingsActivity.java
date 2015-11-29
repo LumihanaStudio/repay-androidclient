@@ -11,7 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+<<<<<<< HEAD
+=======
 import android.widget.EditText;
+>>>>>>> 6787408c2c6019d8d1a4530bcff49587082d0a68
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -91,9 +94,20 @@ public class SettingsActivity extends AppCompatActivity {
                                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                                     @Override
                                     public void onClick(MaterialDialog dialog, DialogAction which) {
+<<<<<<< HEAD
                                         editor.putString("parent_number", ed.getText().toString().trim());
                                         editor.commit();
                                         Toast.makeText(SettingsActivity.this, ed.getText().toString().trim() + "번으로 설정되었습니다!", Toast.LENGTH_SHORT).show();
+=======
+<<<<<<< HEAD
+                                        Toast.makeText(SettingsActivity.this, "설정되었습니다!", Toast.LENGTH_SHORT).show();
+=======
+                                        EditText ed = (EditText) getParentNumberView.findViewById(R.id.parent_number);
+                                        editor.putString("parent_number", ed.getText().toString().trim());
+                                        editor.commit();
+                                        Toast.makeText(SettingsActivity.this, ed.getText().toString().trim()+"번으로 설정되었습니다!", Toast.LENGTH_SHORT).show();
+>>>>>>> 6787408c2c6019d8d1a4530bcff49587082d0a68
+>>>>>>> 58fba55b8071ac01586e93feb1a44a418440b7e2
                                     }
                                 })
                                 .show();
