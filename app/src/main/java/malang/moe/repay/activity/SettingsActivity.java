@@ -22,6 +22,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import java.util.ArrayList;
 
 import malang.moe.repay.R;
+
 /**
  * Created by kotohana5706 on 2015. 11. 21.
  * Copyright by Sunrin Internet High School EDCAN
@@ -29,22 +30,25 @@ import malang.moe.repay.R;
  */
 public class SettingsActivity extends AppCompatActivity {
 
-    public class SettingsData{
+    public class SettingsData {
         public int icon;
         public String title;
         public String description;
-        public SettingsData(int icon, String title, String description){
+
+        public SettingsData(int icon, String title, String description) {
             this.icon = icon;
             this.title = title;
             this.description = description;
         }
     }
 
+    String number;
     SharedPreferences sharedPref;
     SharedPreferences.Editor editor;
     ListView listview;
     View header, getParentNumberView;
     ArrayList<SettingsData> array;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,11 +59,12 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void setDefault() {
         sharedPref = getSharedPreferences("Repay", 0);
+        number = sharedPref.getString("parent_number", "");
         editor = sharedPref.edit();
-        listview = (ListView)findViewById(R.id.settings_listview);
+        listview = (ListView) findViewById(R.id.settings_listview);
         header = getLayoutInflater().inflate(R.layout.listview_settings_header, null);
         getParentNumberView = getLayoutInflater().inflate(R.layout.view_settings_getparentnumber, null);
-        TextView headerText= (TextView) header.findViewById(R.id.settings_listview_header_title);
+        TextView headerText = (TextView) header.findViewById(R.id.settings_listview_header_title);
         headerText.setText("기본 설정");
         array = new ArrayList<>();
         array.add(new SettingsData(1, "로그인이 필요합니다!", "모든 서비스를 이용하려면 로그인해주세요!"));
@@ -71,10 +76,13 @@ public class SettingsActivity extends AppCompatActivity {
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch (position){
+                switch (position) {
                     case 1:
                         break;
                     case 2:
+                        number = sharedPref.getString("parent_number", "");
+                        final EditText ed = (EditText) getParentNumberView.findViewById(R.id.parent_number);
+                        if (!number.trim().equals("")) ed.setText(number);
                         new MaterialDialog.Builder(SettingsActivity.this)
                                 .title("부모 전화번호 설정")
                                 .customView(getParentNumberView, true)
@@ -83,10 +91,9 @@ public class SettingsActivity extends AppCompatActivity {
                                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                                     @Override
                                     public void onClick(MaterialDialog dialog, DialogAction which) {
-                                        EditText ed = (EditText) getParentNumberView.findViewById(R.id.parent_number);
                                         editor.putString("parent_number", ed.getText().toString().trim());
                                         editor.commit();
-                                        Toast.makeText(SettingsActivity.this, ed.getText().toString().trim()+"번으로 설정되었습니다!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(SettingsActivity.this, ed.getText().toString().trim() + "번으로 설정되었습니다!", Toast.LENGTH_SHORT).show();
                                     }
                                 })
                                 .show();
@@ -130,8 +137,8 @@ public class SettingsActivity extends AppCompatActivity {
             final SettingsData data = this.getItem(position);
             if (data != null) {
                 //화면 출력
-                TextView title = (TextView)view.findViewById(R.id.settings_listview_title);
-                TextView description = (TextView)view.findViewById(R.id.settings_listview_content);
+                TextView title = (TextView) view.findViewById(R.id.settings_listview_title);
+                TextView description = (TextView) view.findViewById(R.id.settings_listview_content);
 
                 title.setText(data.title);
                 description.setText(data.description);
@@ -142,10 +149,15 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 }

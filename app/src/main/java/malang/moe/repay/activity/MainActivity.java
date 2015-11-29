@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(new Intent(getApplicationContext(), HealthSelectActivity.class));
                 break;
             case R.id.main_bokji:
-
+                startActivity(new Intent(getApplicationContext(), MedicalCenterListActivity.class));
                 break;
             case R.id.main_photo:
 
