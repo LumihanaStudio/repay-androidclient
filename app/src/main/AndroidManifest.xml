@@ -52,7 +52,8 @@
         <activity
             android:name=".activity.ExcercisePlaceShowActivity"
             android:label="@string/title_activity_map_show" />
-        <activity android:name=".activity.MedicalCenterListActivity"></activity>
+        <activity android:name=".activity.MedicalCenterListActivity" />
+        <activity android:name=".activity.AuthActivity"></activity>
     </application>
 
 </manifest>
