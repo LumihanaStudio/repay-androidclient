@@ -16,7 +16,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.telephony.SmsManager;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -28,7 +27,6 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import malang.moe.repay.R;
-import retrofit.http.HEAD;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -98,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (null != ab) {
             ab.setDisplayHomeAsUpEnabled(true);
         }
-        ab.setTitle("효은");
+        ab.setTitle("효돌이");
         ab.setElevation(0);
         dtToggle = new ActionBarDrawerToggle(this, dlDrawer, R.string.app_name, R.string.app_name);
         dlDrawer.setDrawerListener(dtToggle);
