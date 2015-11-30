@@ -34,7 +34,7 @@ public class PictureViewActivity extends AppCompatActivity {
 
     private void setDefault() {
         gridView = (GridView) findViewById(R.id.image_view_gridview);
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 2000; i++) {
             urlArr.add("http://bamtoll.moe/asdf.jpg");
             textArr.add(i + "번째 졸려ㅕㅑ");
         }
