@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#C95659">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <EditText
+            android:id="@+id/register_input_name"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="#FFF"
+            android:hint="이름 입력"
+            android:inputType="textNoSuggestions"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:singleLine="true" />
+
+        <EditText
+            android:id="@+id/register_input_id"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="5dp"
+            android:background="#FFF"
+            android:hint="아이디 입력"
+            android:inputType="textNoSuggestions"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:singleLine="true" />
+
+        <EditText
+            android:id="@+id/register_input_password"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="5dp"
+            android:background="#FFF"
+            android:hint="비밀번호 입력"
+            android:inputType="textNoSuggestions|textPassword"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:singleLine="true" />
+
+        <EditText
+            android:id="@+id/register_input_re_password"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="5dp"
+            android:background="#FFF"
+            android:hint="비밀번호 재입력"
+            android:inputType="textNoSuggestions|textPassword"
+
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:singleLine="true" />
+
+        <TextView
+            android:id="@+id/register_register"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/auth_login_selector"
+            android:gravity="center"
+            android:text="회원가입"
+            android:textColor="#FFF"
+            android:textSize="16dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</RelativeLayout>

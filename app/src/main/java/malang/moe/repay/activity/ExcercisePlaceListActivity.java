@@ -61,25 +61,6 @@ public class ExcercisePlaceListActivity extends AppCompatActivity {
         parseData();
     }
 
-//    private void parseData() {
-//        welfareCenter_Response.enqueue(new Callback<WelfareCenter_Response>() {
-//            @Override
-//            public void onResponse(Response<WelfareCenter_Response> response, Retrofit retrofit) {
-//                if(response.code()==200){
-//                    welfareRows = response.body().welfareCenter.row;
-//                }
-//                for(WelfareRow welfareRow : welfareRows){
-//                    asdf.append(welfareRow.WELFARE_NM);
-//                }
-//            }
-//
-//
-//            @Override
-//            public void onFailure(Throwable t) {
-//                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
 //
     private void parseData() {
         travelPark_Response.enqueue(new Callback<TravelPark_Response>() {

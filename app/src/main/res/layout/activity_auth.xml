@@ -5,10 +5,10 @@
     android:background="#C95659">
 
     <ImageView
-        android:scaleType="centerCrop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:scaleType="centerCrop"
         android:src="@drawable/acc_logo" />
 
     <LinearLayout
@@ -24,8 +24,10 @@
             android:layout_height="40dp"
             android:background="#FFF"
             android:hint="아이디 입력"
+            android:inputType="textNoSuggestions"
             android:paddingLeft="10dp"
-            android:paddingRight="10dp" />
+            android:paddingRight="10dp"
+            android:singleLine="true" />
 
         <EditText
             android:id="@+id/auth_input_password"
@@ -34,8 +36,10 @@
             android:layout_marginTop="5dp"
             android:background="#FFF"
             android:hint="비밀번호 입력"
+            android:inputType="textNoSuggestions|textPassword"
             android:paddingLeft="10dp"
-            android:paddingRight="10dp" />
+            android:paddingRight="10dp"
+            android:singleLine="true" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -58,7 +62,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/auth_register"
+                android:id="@+id/register_register"
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="3dp"

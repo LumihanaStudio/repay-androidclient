@@ -36,8 +36,8 @@ public interface NetworkService {
 
     @POST("/auth/register")
     @FormUrlEncoded
-    Call<User> registerUser(@Field("id") String id, @Field("password") String password, @Field("name") String name);
-
+    Call<User> registerUser(@Field("id") String id, @Field("password") String password, @Field("name") String name,
+                            @Field("isParent") boolean isParent);
 
     // Gangwon API
     @GET(gangwonApikey + "/json/cybergt-travel-park/{start}/{end}/")

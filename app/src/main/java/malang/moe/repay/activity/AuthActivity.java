@@ -1,5 +1,7 @@
 package malang.moe.repay.activity;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -23,6 +25,8 @@ import retrofit.Retrofit;
 
 public class AuthActivity extends AppCompatActivity implements View.OnClickListener {
 
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
     Retrofit retrofit;
     TextView login, register;
     AnimateNetworkImageView image;
@@ -30,6 +34,7 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
     User user;
     Call<User> userLogin, userLogout, autoLogin, registerUser;
     NetworkService service;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,8 +47,10 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setDefault() {
+        sharedPreferences = getSharedPreferences("Repay", 0);
+        editor = sharedPreferences.edit();
         login = (TextView) findViewById(R.id.auth_login);
-        register = (TextView) findViewById(R.id.auth_register);
+        register = (TextView) findViewById(R.id.register_register);
 
         login.setOnClickListener(this);
         register.setOnClickListener(this);
@@ -56,13 +63,14 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
                 .build();
         service = retrofit.create(NetworkService.class);
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.auth_login:
                 setLogin();
                 break;
-            case R.id.auth_register:
+            case R.id.register_register:
                 setRegister();
         }
     }
@@ -70,18 +78,25 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
     private void setLogin() {
         EditText id = (EditText) findViewById(R.id.auth_input_id);
         EditText password = (EditText) findViewById(R.id.auth_input_password);
-        String idText=  id.getText().toString().trim();
+        String idText = id.getText().toString().trim();
         String passwordText = password.getText().toString().trim();
-        if(idText.equals(""))  id.setError("아이디를 입력해주세요!");
-        if(passwordText.equals("")) password.setError("비밀번호를 입력해주세요!");
-        if(!idText.equals("")&&!passwordText.equals("")) {
+        if (idText.equals("")) id.setError("아이디를 입력해주세요!");
+        if (passwordText.equals("")) password.setError("비밀번호를 입력해주세요!");
+        if (!idText.equals("") && !passwordText.equals("")) {
             userLogin = service.userLogin(idText, passwordText);
             userLogin.enqueue(new Callback<User>() {
                 @Override
                 public void onResponse(Response<User> response, Retrofit retrofit) {
-                    switch (response.code()){
+                    switch (response.code()) {
                         case 200:
-                            Toast.makeText(AuthActivity.this, "로그인 성공", Toast.LENGTH_SHORT).show();
+                            editor.putString("name", response.body().name);
+                            editor.putString("id", response.body().id);
+                            editor.putString("password", response.body().password);
+                            editor.putString("apikey", response.body().apikey);
+                            editor.putBoolean("isParent", response.body().isParent);
+                            editor.commit();
+                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                            finish();
                             break;
                         case 400:
                             Toast.makeText(AuthActivity.this, "아이디 또는 비밀번호가 잘못되었습니다!", Toast.LENGTH_SHORT).show();
@@ -99,6 +114,6 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setRegister() {
-
+        startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
     }
 }

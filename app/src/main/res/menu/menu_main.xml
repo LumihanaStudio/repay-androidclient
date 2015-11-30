@@ -7,7 +7,10 @@
                 android:title="스트레칭" />
             <item
                 android:id="@+id/main_drawer_facilities"
-                android:title="복지시설"/>
+                android:title="복지시설" />
+            <item
+                android:id="@+id/main_drawer_medical"
+                android:title="의료시설" />
             <item
                 android:id="@+id/main_drawer_pictures"
                 android:title="추억사진" />

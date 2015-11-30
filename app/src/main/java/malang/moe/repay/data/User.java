@@ -8,10 +8,12 @@ public class User {
     public String password;
     public String name;
     public String apikey;
-    public User(String id, String password, String name, String apikey){
+    public boolean isParent;
+    public User(String id, String password, String name, String apikey, boolean isParent){
         this.id = id;
         this.password = password;
         this.name = name;
         this.apikey = apikey;
+        this.isParent = isParent;
     }
 }
