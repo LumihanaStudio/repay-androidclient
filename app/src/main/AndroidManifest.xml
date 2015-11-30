@@ -60,7 +60,8 @@
             android:name=".activity.SelectIsParentActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".activity.RegisterActivity" />
-        <activity android:name=".activity.WelfareListActivity"></activity>
+        <activity android:name=".activity.WelfareListActivity" />
+        <activity android:name=".activity.PictureViewActivity"></activity>
     </application>
 
 </manifest>

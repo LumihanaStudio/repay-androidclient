@@ -118,7 +118,7 @@ public class MedicalCenterListActivity extends AppCompatActivity {
 
     public void setActionbar(ActionBar actionbar) {
         actionbar.setDisplayHomeAsUpEnabled(true);
-        actionbar.setTitle("복지시설");
+        actionbar.setTitle("의료시설");
     }
 
     public void setListView(List<MedicalRow> list) {

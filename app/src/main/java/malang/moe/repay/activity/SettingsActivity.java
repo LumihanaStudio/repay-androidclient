@@ -1,6 +1,7 @@
 package malang.moe.repay.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -42,7 +43,7 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
-    String number;
+    String number, id, username;
     SharedPreferences sharedPref;
     SharedPreferences.Editor editor;
     ListView listview;
@@ -61,15 +62,17 @@ public class SettingsActivity extends AppCompatActivity {
         sharedPref = getSharedPreferences("Repay", 0);
         number = sharedPref.getString("parent_number", "");
         editor = sharedPref.edit();
+        id = sharedPref.getString("id", "");
+        username  = sharedPref.getString("name", "");
         listview = (ListView) findViewById(R.id.settings_listview);
         header = getLayoutInflater().inflate(R.layout.listview_settings_header, null);
         getParentNumberView = getLayoutInflater().inflate(R.layout.view_settings_getparentnumber, null);
         TextView headerText = (TextView) header.findViewById(R.id.settings_listview_header_title);
         headerText.setText("기본 설정");
         array = new ArrayList<>();
-        array.add(new SettingsData(1, "로그인이 필요합니다!", "모든 서비스를 이용하려면 로그인해주세요!"));
-        array.add(new SettingsData(1, "부모 전화번호 설정", "현재 설정되어있지 않습니다."));
-        array.add(new SettingsData(1, "위치 설정!", "현재 설정되어 있지 않습니다."));
+        array.add(new SettingsData(1, username+"("+id+")으로 로그인 중", "로그아웃하려면 누르세요!"));
+        array.add(new SettingsData(1, "부모 전화번호 설정", ""));
+        array.add(new SettingsData(1, "위치 설정!", ""));
         SettingsAdapter adapter = new SettingsAdapter(SettingsActivity.this, array);
         listview.addHeaderView(header);
         listview.setAdapter(adapter);
@@ -78,6 +81,20 @@ public class SettingsActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 1:
+                        new MaterialDialog.Builder(SettingsActivity.this)
+                                .title("로그아웃하시겠습니까?")
+                                .positiveText("확인")
+                                .negativeText("취소")
+                                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                    @Override
+                                    public void onClick(MaterialDialog dialog, DialogAction which) {
+                                        editor.clear();
+                                        editor.commit();
+                                        startActivity(new Intent(getApplicationContext(), AuthActivity.class));
+                                        MainActivity.activity.finish();
+                                        finish();
+                                    }
+                                }).show();
                         break;
                     case 2:
                         number = sharedPref.getString("parent_number", "");
@@ -144,9 +161,9 @@ public class SettingsActivity extends AppCompatActivity {
                 //화면 출력
                 TextView title = (TextView) view.findViewById(R.id.settings_listview_title);
                 TextView description = (TextView) view.findViewById(R.id.settings_listview_content);
-
                 title.setText(data.title);
-                description.setText(data.description);
+                if(data.description.trim().equals("")) description.setVisibility(View.GONE);
+                else description.setText(data.description);
             }
             return view;
         }

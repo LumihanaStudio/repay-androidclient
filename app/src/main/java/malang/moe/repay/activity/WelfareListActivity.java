@@ -1,14 +1,15 @@
 package malang.moe.repay.activity;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -43,12 +44,14 @@ public class WelfareListActivity extends AppCompatActivity {
     MaterialDialog loading;
     Retrofit retrofit;
     NetworkService service;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welfare_list);
         setDefault();
         setRestAdapter();
+        setActionbar(getSupportActionBar());
         parseData();
     }
 
@@ -60,6 +63,11 @@ public class WelfareListActivity extends AppCompatActivity {
         service = retrofit.create(NetworkService.class);
 
         welfareCenter_Response = service.getWelfareList(1, 1000);
+    }
+
+    public void setActionbar(ActionBar actionbar) {
+        actionbar.setDisplayHomeAsUpEnabled(true);
+        actionbar.setTitle("복지시설");
     }
 
     private void setDefault() {
@@ -121,5 +129,14 @@ public class WelfareListActivity extends AppCompatActivity {
         adapter = new WelfareCenterAdapter(WelfareListActivity.this, arrayList);
         welfareList.setAdapter(adapter);
         loading.dismiss();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

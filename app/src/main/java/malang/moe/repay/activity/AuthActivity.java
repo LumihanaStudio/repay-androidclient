@@ -10,11 +10,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.toolbox.ImageLoader;
-
 import malang.moe.repay.R;
 import malang.moe.repay.data.User;
-import malang.moe.repay.utils.AnimateNetworkImageView;
 import malang.moe.repay.utils.NetworkService;
 import retrofit.Call;
 import retrofit.Callback;
@@ -29,19 +26,18 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences.Editor editor;
     Retrofit retrofit;
     TextView login, register;
-    AnimateNetworkImageView image;
-    ImageLoader loader;
+
     User user;
     Call<User> userLogin, userLogout, autoLogin, registerUser;
+    String apikey;
     NetworkService service;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth);
-        setDefault();
         setRestAdapter();
-//        loader = ImageSingleTon.getInstance(this).getImageLoader();
+        setDefault();
 //        image = (AnimateNetworkImageView) findViewById(R.id.auth_imageview);
 //        image.setImageUrl("http://bamtoll.moe/asdf.jpg", loader);
     }
@@ -54,6 +50,41 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
 
         login.setOnClickListener(this);
         register.setOnClickListener(this);
+        setAutoLogin();
+    }
+
+    private void setAutoLogin() {
+        apikey = sharedPreferences.getString("apikey", "");
+        if (!apikey.trim().equals("")) {
+            autoLogin = service.autoLogin(apikey);
+            autoLogin.enqueue(new Callback<User>() {
+                @Override
+                public void onResponse(Response<User> response, Retrofit retrofit) {
+                    switch (response.code()) {
+                        case 200:
+                            editor.putString("name", response.body().name);
+                            editor.putString("id", response.body().id);
+                            editor.putString("password", response.body().password);
+                            editor.putString("apikey", response.body().apikey);
+                            editor.putBoolean("isParent", response.body().isParent);
+                            editor.commit();
+                            Toast.makeText(AuthActivity.this, response.body().name + " 유저님 환영합니다.", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                            finish();
+                            break;
+                        case 400:
+                            Toast.makeText(AuthActivity.this, "세션이 만료되었습니다. 로그인해주세요!", Toast.LENGTH_SHORT).show();
+                            return;
+                    }
+                }
+
+                @Override
+                public void onFailure(Throwable t) {
+                    Toast.makeText(AuthActivity.this, "서버와의 연동에 문제가 있습니다! \n네트워크 환경을 확인해주세요!", Toast.LENGTH_SHORT).show();
+                    if (!t.getMessage().equals(null)) Log.e("Repay", t.getMessage());
+                }
+            });
+        }
     }
 
     private void setRestAdapter() {

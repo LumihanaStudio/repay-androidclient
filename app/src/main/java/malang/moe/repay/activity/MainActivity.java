@@ -1,6 +1,7 @@
 package malang.moe.repay.activity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -38,24 +39,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     TextView sendSMS, sendCall;
-    ImageView health, bokji, photo;
+    ImageView health, bokji, hospital, photo;
+    public static Activity activity;
+    boolean isParent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        activity = this;
         setActionBar();
         setDefault();
     }
 
     private void setDefault() {
-        health = (ImageView)findViewById(R.id.main_health);
-        bokji = (ImageView)findViewById(R.id.main_bokji);
-        photo = (ImageView)findViewById(R.id.main_photo);
-        sharedPreferences = getSharedPreferences("Repay", 0);
-        number = sharedPreferences.getString("parent_number", "");
         health = (ImageView) findViewById(R.id.main_health);
         bokji = (ImageView) findViewById(R.id.main_bokji);
         photo = (ImageView) findViewById(R.id.main_photo);
+        sharedPreferences = getSharedPreferences("Repay", 0);
+        number = sharedPreferences.getString("parent_number", "");
+        isParent = sharedPreferences.getBoolean("isParent", false);
+        health = (ImageView) findViewById(R.id.main_health);
+        bokji = (ImageView) findViewById(R.id.main_bokji);
+        photo = (ImageView) findViewById(R.id.main_photo);
+        hospital = (ImageView) findViewById(R.id.main_hospital);
+        if (!isParent) bokji.setVisibility(View.VISIBLE);
+        else hospital.setVisibility(View.VISIBLE);
         sendCall = (TextView) findViewById(R.id.main_send_call);
         sendSMS = (TextView) findViewById(R.id.main_send_sms);
         sendCall.setOnClickListener(this);
@@ -63,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         health.setOnClickListener(this);
         bokji.setOnClickListener(this);
         photo.setOnClickListener(this);
+        hospital.setOnClickListener(this);
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -174,15 +184,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.main_send_call:
                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
                     return;
-                } else startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+number)));
+                } else if (number.trim().equals("")) {
+                    new MaterialDialog.Builder(MainActivity.this)
+                            .content("아직 번호가 설정되지 않았습니다! 설정창에서 부모님의 번호를 설정해주세요!")
+                            .positiveText("설정")
+                            .negativeText("취소")
+                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(MaterialDialog dialog, DialogAction which) {
+                                    startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
+                                }
+                            })
+                            .show();
+                } else startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + number)));
+                break;
+            case R.id.main_hospital:
+                startActivity(new Intent(getApplicationContext(), MedicalCenterListActivity.class));
                 break;
             case R.id.main_health:
                 startActivity(new Intent(getApplicationContext(), HealthSelectActivity.class));
                 break;
             case R.id.main_bokji:
-                startActivity(new Intent(getApplicationContext(), MedicalCenterListActivity.class));
+                startActivity(new Intent(getApplicationContext(), WelfareListActivity.class));
                 break;
             case R.id.main_photo:
+                startActivity(new Intent(getApplicationContext(), PictureViewActivity.class));
                 break;
         }
     }
