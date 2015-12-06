@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ImageView health, bokji, hospital, photo;
     public static Activity activity;
     boolean isParent;
+    boolean isFirst;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         bokji = (ImageView) findViewById(R.id.main_bokji);
         photo = (ImageView) findViewById(R.id.main_photo);
         sharedPreferences = getSharedPreferences("Repay", 0);
+
         number = sharedPreferences.getString("parent_number", "");
         isParent = sharedPreferences.getBoolean("isParent", false);
         health = (ImageView) findViewById(R.id.main_health);
@@ -87,13 +89,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     case R.id.main_drawer_medical:
                         startActivity(new Intent(getApplicationContext(), MedicalCenterListActivity.class));
                     case R.id.main_drawer_pictures:
-                        Toast.makeText(MainActivity.this, "추억사진", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getApplicationContext(), PictureViewActivity.class));
                         break;
                     case R.id.main_drawer_settings:
                         startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
                         break;
                     case R.id.main_drawer_tutorial:
-                        startActivity(new Intent(getApplicationContext(), TutorialActivity.class));
+                        startActivity(new Intent(getApplicationContext(), Tutorial.class));
                         break;
                 }
                 return true;
@@ -221,5 +223,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onResume() {
         super.onResume();
         number = sharedPreferences.getString("parent_number", "");
+        isFirst = sharedPreferences.getBoolean("isFirst", true);
+        if(isFirst) startActivity(new Intent(getApplicationContext(), Tutorial.class));
+
     }
 }

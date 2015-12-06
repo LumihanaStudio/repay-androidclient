@@ -58,7 +58,7 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="5dp"
                         android:gravity="center"
-                        android:text="자녀와 연락한지 *일이\n지났습니다"
+                        android:text="자녀와 연락한지 8일이\n지났습니다"
                         android:textSize="12dp" />
                 </LinearLayout>
             </RelativeLayout>

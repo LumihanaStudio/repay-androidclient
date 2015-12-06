@@ -72,7 +72,6 @@ public class SettingsActivity extends AppCompatActivity {
         array = new ArrayList<>();
         array.add(new SettingsData(1, username+"("+id+")으로 로그인 중", "로그아웃하려면 누르세요!"));
         array.add(new SettingsData(1, "부모 전화번호 설정", ""));
-        array.add(new SettingsData(1, "위치 설정!", ""));
         SettingsAdapter adapter = new SettingsAdapter(SettingsActivity.this, array);
         listview.addHeaderView(header);
         listview.setAdapter(adapter);
@@ -119,6 +118,7 @@ public class SettingsActivity extends AppCompatActivity {
                                     }
                                 })
                                 .show();
+                        break;
                 }
             }
         });

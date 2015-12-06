@@ -1,11 +1,17 @@
 package malang.moe.repay.activity;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,7 +67,7 @@ public class MedicalCenterListActivity extends AppCompatActivity {
                 TextView title = (TextView) view.findViewById(R.id.medical_listview_title);
                 TextView address = (TextView) view.findViewById(R.id.medical_listview_address);
                 TextView webpage = (TextView) view.findViewById(R.id.medical_listview_homepage);
-                TextView num = (TextView) view.findViewById(R.id.medical_listview_tel_num);
+                final TextView num = (TextView) view.findViewById(R.id.medical_listview_tel_num);
                 View inflateView = getLayoutInflater().inflate(R.layout.dialog_medicalcenter, null);
                 TextView dialogAddress = (TextView) inflateView.findViewById(R.id.dialog_medicalcenter_address);
                 TextView webAddress = (TextView) inflateView.findViewById(R.id.dialog_medicalcenter_web_address);
@@ -69,7 +75,16 @@ public class MedicalCenterListActivity extends AppCompatActivity {
                 dialogAddress.setText(address.getText().toString().trim());
                 webAddress.setText(webpage.getText().toString().trim());
                 dialogNumber.setText(num.getText().toString().trim());
-
+                Button call = (Button) inflateView.findViewById(R.id.dialog_medicalcenter_call_button);
+                call.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (ActivityCompat.checkSelfPermission(MedicalCenterListActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                            return;
+                        }
+                        startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + num.getText().toString().trim())));
+                    }
+                });
                 new MaterialDialog.Builder(MedicalCenterListActivity.this)
                         .title(title.getText().toString().trim())
                         .customView(inflateView, true)

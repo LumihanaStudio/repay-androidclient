@@ -1,22 +1,33 @@
 package malang.moe.repay.activity;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
-import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import malang.moe.repay.R;
 import malang.moe.repay.utils.AnimateNetworkImageView;
 import malang.moe.repay.utils.ImageSingleTon;
+import malang.moe.repay.utils.NetworkService;
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.GsonConverterFactory;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 public class PictureViewActivity extends AppCompatActivity {
 
@@ -24,22 +35,52 @@ public class PictureViewActivity extends AppCompatActivity {
     ArrayList<String> urlArr = new ArrayList<>();
     ArrayList<String> textArr = new ArrayList<>();
     ImageLoader loader;
+    Call<List<String>> listArticle;
+    SharedPreferences sharedPreferences;
+    NetworkService service;
+    Retrofit retrofit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_picture_view);
+        setRestAdapter();
         setDefault();
+        setActionBar(getSupportActionBar());
+    }
+
+    private void setActionBar(ActionBar ab) {
+        ab.setTitle("추억 보기");
+        ab.setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void setRestAdapter() {
+        retrofit = new Retrofit.Builder()
+                .baseUrl("http://bamtoll.moe:2000/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        service = retrofit.create(NetworkService.class);
+        listArticle = service.listArticle();
     }
 
     private void setDefault() {
         gridView = (GridView) findViewById(R.id.image_view_gridview);
-        for (int i = 0; i < 2000; i++) {
-            urlArr.add("http://bamtoll.moe/asdf.jpg");
-            textArr.add(i + "번째 졸려ㅕㅑ");
-        }
-        loader = ImageSingleTon.getInstance(this).getImageLoader();
-        gridView.setAdapter(new ImageGridAdapter());
+        listArticle.enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Response<List<String>> response, Retrofit retrofit) {
+                for (String string : response.body()) {
+                    urlArr.add("http://bamtoll.moe/imgs/" + string);
+                }
+                loader = ImageSingleTon.getInstance(PictureViewActivity.this).getImageLoader();
+                gridView.setAdapter(new ImageGridAdapter());
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        });
+
     }
 
     public class ImageGridAdapter extends BaseAdapter {
@@ -70,10 +111,33 @@ public class PictureViewActivity extends AppCompatActivity {
                 convertView = inflater.inflate(R.layout.gridview_view, parent, false);
             }
             AnimateNetworkImageView image = (AnimateNetworkImageView) convertView.findViewById(R.id.gridview_image);
-            TextView title = (TextView) convertView.findViewById(R.id.gridview_title);
             image.setImageUrl(urlArr.get(position), loader);
-            title.setText(textArr.get(position));
             return convertView;
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.add,  menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+            case R.id.plus:
+                startActivity(new Intent(getApplicationContext(), PictureAddActivity.class));
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        setRestAdapter();
+        setDefault();
+        super.onResume();
     }
 }

@@ -38,6 +38,7 @@ dependencies {
     compile('com.github.afollestad.material-dialogs:commons:0.8.5.1@aar') {
         transitive = true
     }
+    compile 'com.getbase:floatingactionbutton:1.9.1'
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
     compile 'com.mcxiaoke.volley:library:1.0.19'

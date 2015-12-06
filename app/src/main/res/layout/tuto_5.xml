@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#C95659"
+    android:orientation="vertical"
+    android:paddingTop="16dp"
+    android:weightSum="10">
+
+    <ImageView
+        android:scaleType="centerInside"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_weight="6"
+        android:src="@drawable/acc_logo" />
+
+    <ImageView
+        android:padding="16dp"
+        android:src="@drawable/acc_tutorial_seki_slide5"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_weight="3" />
+    <Button
+        android:text="시작하기!"
+        android:id="@+id/start"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:layout_weight="1"/>
+</LinearLayout>
