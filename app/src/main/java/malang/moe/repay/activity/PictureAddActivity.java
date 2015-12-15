@@ -3,6 +3,7 @@ package malang.moe.repay.activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
@@ -36,6 +37,7 @@ public class PictureAddActivity extends AppCompatActivity implements View.OnClic
     private static int RESULT_LOAD_IMAGE = 1;
     private static final int CAMERA_REQUEST = 1888;
     String shareType, picturePath, apikey, item_name, item_comment, item_place, item_reward, string_path, finalPath;
+    Bitmap bitmap;
 
     FloatingActionButton add;
     ImageView imageView;
@@ -45,6 +47,7 @@ public class PictureAddActivity extends AppCompatActivity implements View.OnClic
     NetworkService service;
     Retrofit retrofit;
     EditText title, contentEditText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,11 +58,11 @@ public class PictureAddActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void setDefault() {
-        sharedPreferences = getSharedPreferences("Repay",0);
+        sharedPreferences = getSharedPreferences("Repay", 0);
         pictureSel = (RelativeLayout) findViewById(R.id.photo_add_layout);
         imageView = (ImageView) findViewById(R.id.photo_add_imageview);
         pictureSel.setOnClickListener(this);
-        add= (FloatingActionButton) findViewById(R.id.postbutton);
+        add = (FloatingActionButton) findViewById(R.id.postbutton);
         add.setOnClickListener(this);
         apikey = sharedPreferences.getString("apikey", "");
         title = (EditText) findViewById(R.id.picture_add_title);
@@ -80,9 +83,30 @@ public class PictureAddActivity extends AppCompatActivity implements View.OnClic
             Log.e("파일 경로", picturePath);
             cursor.close();
             imageView.setVisibility(View.VISIBLE);
-            imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));//이미지뷰에 뿌려줍니다.
+            imageView.setImageDrawable(null);
+//            BitmapFactory.Options opt = new BitmapFactory.Options();
+//            opt.inJustDecodeBounds = true;
+//            bitmap = BitmapFactory.decodeFile(picturePath, opt);
+//            opt.inSampleSize = calculateBmpSampleSize(opt, imageView.getWidth(), imageView.getHeight());
+//            opt.inJustDecodeBounds = false;
+            bitmap = BitmapFactory.decodeFile(picturePath);
+            imageView.setImageBitmap(bitmap);//이미지뷰에 뿌려줍니다.
+            Log.e("asdf", "Image Success");
         }
     }
+
+    public int calculateBmpSampleSize(BitmapFactory.Options opt, int width, int height) {
+        final int outHeight = opt.outHeight;
+        final int outWidth = opt.outWidth;
+        int sampleSize = 1;
+        if (outHeight > height || outWidth > width) {
+            final int heightRatio = Math.round((float) outHeight / (float) height);
+            final int widthRatio = Math.round((float) outWidth / (float) width);
+            sampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
+        }
+        return sampleSize;
+    }
+
     private void setActionBar(ActionBar ab) {
         ab.setTitle("추억 추가");
         ab.setDisplayHomeAsUpEnabled(true);
@@ -90,7 +114,7 @@ public class PictureAddActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.postbutton:
                 upload();
                 break;
@@ -102,12 +126,12 @@ public class PictureAddActivity extends AppCompatActivity implements View.OnClic
 
     private void upload() {
         File file = new File(picturePath);
-        RequestBody image= RequestBody.create(MediaType.parse("image/jpeg"), file);
+        RequestBody image = RequestBody.create(MediaType.parse("image/jpeg"), file);
         postArticle = service.postArticle(image, title.getText().toString().trim(), contentEditText.getText().toString().trim());
         postArticle.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Response<String> response, Retrofit retrofit) {
-                switch (response.code()){
+                switch (response.code()) {
                     case 200:
                         Toast.makeText(PictureAddActivity.this, "정상적으로 등록되었습니다!", Toast.LENGTH_SHORT).show();
                         finish();
@@ -122,6 +146,7 @@ public class PictureAddActivity extends AppCompatActivity implements View.OnClic
             }
         });
     }
+
     private void setRestAdapter() {
         retrofit = new Retrofit.Builder()
                 .baseUrl("http://bamtoll.moe:2000/")
@@ -132,7 +157,7 @@ public class PictureAddActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 break;
