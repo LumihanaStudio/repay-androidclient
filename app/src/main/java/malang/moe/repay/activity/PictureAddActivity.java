@@ -84,11 +84,11 @@ public class PictureAddActivity extends AppCompatActivity implements View.OnClic
             cursor.close();
             imageView.setVisibility(View.VISIBLE);
             imageView.setImageDrawable(null);
-//            BitmapFactory.Options opt = new BitmapFactory.Options();
-//            opt.inJustDecodeBounds = true;
-//            bitmap = BitmapFactory.decodeFile(picturePath, opt);
-//            opt.inSampleSize = calculateBmpSampleSize(opt, imageView.getWidth(), imageView.getHeight());
-//            opt.inJustDecodeBounds = false;
+            BitmapFactory.Options opt = new BitmapFactory.Options();
+            opt.inJustDecodeBounds = true;
+            bitmap = BitmapFactory.decodeFile(picturePath, opt);
+            opt.inSampleSize = calculateBmpSampleSize(opt, imageView.getWidth(), imageView.getHeight());
+            opt.inJustDecodeBounds = false;
             bitmap = BitmapFactory.decodeFile(picturePath);
             imageView.setImageBitmap(bitmap);//이미지뷰에 뿌려줍니다.
             Log.e("asdf", "Image Success");
@@ -127,7 +127,8 @@ public class PictureAddActivity extends AppCompatActivity implements View.OnClic
     private void upload() {
         File file = new File(picturePath);
         RequestBody image = RequestBody.create(MediaType.parse("image/jpeg"), file);
-        postArticle = service.postArticle(image, title.getText().toString().trim(), contentEditText.getText().toString().trim());
+        postArticle = service.postArticle(image, title.getText().toString().trim(), contentEditText.getText().toString().trim(),
+                sharedPreferences.getString("apikey", ""));
         postArticle.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Response<String> response, Retrofit retrofit) {
@@ -149,7 +150,7 @@ public class PictureAddActivity extends AppCompatActivity implements View.OnClic
 
     private void setRestAdapter() {
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://bamtoll.moe:2000/")
+                .baseUrl("http://malang.moe/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         service = retrofit.create(NetworkService.class);

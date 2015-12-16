@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
 
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import malang.moe.repay.R;
+import malang.moe.repay.data.PhotoArticle;
 import malang.moe.repay.utils.AnimateNetworkImageView;
 import malang.moe.repay.utils.ImageSingleTon;
 import malang.moe.repay.utils.NetworkService;
@@ -35,7 +37,7 @@ public class PictureViewActivity extends AppCompatActivity {
     ArrayList<String> urlArr = new ArrayList<>();
     ArrayList<String> textArr = new ArrayList<>();
     ImageLoader loader;
-    Call<List<String>> listArticle;
+    Call<List<PhotoArticle>> listArticle;
     SharedPreferences sharedPreferences;
     NetworkService service;
     Retrofit retrofit;
@@ -56,23 +58,30 @@ public class PictureViewActivity extends AppCompatActivity {
 
     private void setRestAdapter() {
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://bamtoll.moe:2000/")
+                .baseUrl("http://malang.moe/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         service = retrofit.create(NetworkService.class);
-        listArticle = service.listArticle();
+        listArticle = service.listArticle(sharedPreferences.getString("apikey", ""));
     }
 
     private void setDefault() {
         gridView = (GridView) findViewById(R.id.image_view_gridview);
-        listArticle.enqueue(new Callback<List<String>>() {
+        listArticle.enqueue(new Callback<List<PhotoArticle>>() {
             @Override
-            public void onResponse(Response<List<String>> response, Retrofit retrofit) {
-                for (String string : response.body()) {
-                    urlArr.add("http://bamtoll.moe/imgs/" + string);
+            public void onResponse(Response<List<PhotoArticle>> response, Retrofit retrofit) {
+                switch (response.code()) {
+                    case 200:
+                        for (PhotoArticle photoArticle : response.body()) {
+                            urlArr.add("http://malang.moe:3000/imgs/" + photoArticle.articleKey);
+                        }
+                        loader = ImageSingleTon.getInstance(PictureViewActivity.this).getImageLoader();
+                        gridView.setAdapter(new ImageGridAdapter());
+                        break;
+                    case 400:
+                        Toast.makeText(PictureViewActivity.this, "추억이 존재하지 않습니다!\n상단의 +버튼을 눌러 추가해주세요!", Toast.LENGTH_SHORT).show();
+                        break;
                 }
-                loader = ImageSingleTon.getInstance(PictureViewActivity.this).getImageLoader();
-                gridView.setAdapter(new ImageGridAdapter());
             }
 
             @Override
@@ -118,7 +127,7 @@ public class PictureViewActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.add,  menu);
+        getMenuInflater().inflate(R.menu.add, menu);
         return super.onCreateOptionsMenu(menu);
     }
 

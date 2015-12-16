@@ -53,7 +53,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
 
     private void setRestAdapter() {
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://bamtoll.moe:2000/")
+                .baseUrl("http://malang.moe/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         service = retrofit.create(NetworkService.class);

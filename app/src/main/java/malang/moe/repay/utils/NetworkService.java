@@ -6,6 +6,7 @@ import java.util.List;
 
 import malang.moe.repay.data.ExcerciseVideoResponse;
 import malang.moe.repay.data.MedicalCenter_Response;
+import malang.moe.repay.data.PhotoArticle;
 import malang.moe.repay.data.TravelPark_Response;
 import malang.moe.repay.data.User;
 import malang.moe.repay.data.WelfareCenter_Response;
@@ -47,10 +48,12 @@ public interface NetworkService {
 
     @POST("/article/postArticle")
     @Multipart
-    Call<String> postArticle(@Part("image\"; filename=\"image.jpg\" ") RequestBody photo, @Part("title") String title, @Part("content") String content);
+    Call<String> postArticle(@Part("image\"; filename=\"image.jpg\" ") RequestBody photo, @Part("title") String title, @Part("content") String content,
+                             @Part("apikey") String apikey);
 
     @POST("/article/listArticle")
-    Call<List<String>> listArticle();
+    @FormUrlEncoded
+    Call<List<PhotoArticle>> listArticle(@Field("apikey") String apikey);
 
     // Gangwon API
     @GET(gangwonApikey + "/json/cybergt-travel-park/{start}/{end}/")

@@ -89,7 +89,7 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setRestAdapter() {
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://bamtoll.moe:2000/")
+                .baseUrl("http://malang.moe/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         service = retrofit.create(NetworkService.class);

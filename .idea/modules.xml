@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/SilverGangwon1.iml" filepath="$PROJECT_DIR$/SilverGangwon1.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/repay_androidclient.iml" filepath="$PROJECT_DIR$/repay_androidclient.iml" />
     </modules>
   </component>
 </project>
