@@ -57,6 +57,7 @@ public class PictureViewActivity extends AppCompatActivity {
     }
 
     private void setRestAdapter() {
+        sharedPreferences = getSharedPreferences("Repay", 0);
         retrofit = new Retrofit.Builder()
                 .baseUrl("http://malang.moe/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -72,11 +73,13 @@ public class PictureViewActivity extends AppCompatActivity {
             public void onResponse(Response<List<PhotoArticle>> response, Retrofit retrofit) {
                 switch (response.code()) {
                     case 200:
-                        for (PhotoArticle photoArticle : response.body()) {
-                            urlArr.add("http://malang.moe:3000/imgs/" + photoArticle.articleKey);
+                        if (response.body().size() != 0) {
+                            for (PhotoArticle photoArticle : response.body()) {
+                                urlArr.add("http://malang.moe:3000/imgs/" + photoArticle.articleKey);
+                            }
+                            loader = ImageSingleTon.getInstance(PictureViewActivity.this).getImageLoader();
+                            gridView.setAdapter(new ImageGridAdapter());
                         }
-                        loader = ImageSingleTon.getInstance(PictureViewActivity.this).getImageLoader();
-                        gridView.setAdapter(new ImageGridAdapter());
                         break;
                     case 400:
                         Toast.makeText(PictureViewActivity.this, "추억이 존재하지 않습니다!\n상단의 +버튼을 눌러 추가해주세요!", Toast.LENGTH_SHORT).show();
@@ -139,14 +142,14 @@ public class PictureViewActivity extends AppCompatActivity {
                 break;
             case R.id.plus:
                 startActivity(new Intent(getApplicationContext(), PictureAddActivity.class));
+                finish();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     protected void onResume() {
-        setRestAdapter();
-        setDefault();
         super.onResume();
     }
 }

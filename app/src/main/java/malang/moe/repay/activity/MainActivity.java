@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         break;
                     case R.id.main_drawer_medical:
                         startActivity(new Intent(getApplicationContext(), MedicalCenterListActivity.class));
+                        break;
                     case R.id.main_drawer_pictures:
                         startActivity(new Intent(getApplicationContext(), PictureViewActivity.class));
                         break;

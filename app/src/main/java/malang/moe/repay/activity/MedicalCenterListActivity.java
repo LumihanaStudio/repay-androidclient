@@ -70,7 +70,7 @@ public class MedicalCenterListActivity extends AppCompatActivity {
                 final TextView num = (TextView) view.findViewById(R.id.medical_listview_tel_num);
                 View inflateView = getLayoutInflater().inflate(R.layout.dialog_medicalcenter, null);
                 TextView dialogAddress = (TextView) inflateView.findViewById(R.id.dialog_medicalcenter_address);
-                TextView webAddress = (TextView) inflateView.findViewById(R.id.dialog_medicalcenter_web_address);
+                final TextView webAddress = (TextView) inflateView.findViewById(R.id.dialog_medicalcenter_web_address);
                 TextView dialogNumber = (TextView) inflateView.findViewById(R.id.dialog_medicalcenter_tel_num);
                 dialogAddress.setText(address.getText().toString().trim());
                 webAddress.setText(webpage.getText().toString().trim());
@@ -83,6 +83,13 @@ public class MedicalCenterListActivity extends AppCompatActivity {
                             return;
                         }
                         startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + num.getText().toString().trim())));
+                    }
+                });
+                Button web = (Button) inflateView.findViewById(R.id.dialog_medicalcenter_web_intent);
+                web.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(webAddress.getText().toString().trim())));
                     }
                 });
                 new MaterialDialog.Builder(MedicalCenterListActivity.this)
