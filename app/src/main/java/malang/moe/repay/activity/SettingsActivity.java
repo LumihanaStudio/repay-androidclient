@@ -63,14 +63,14 @@ public class SettingsActivity extends AppCompatActivity {
         number = sharedPref.getString("parent_number", "");
         editor = sharedPref.edit();
         id = sharedPref.getString("id", "");
-        username  = sharedPref.getString("name", "");
+        username = sharedPref.getString("name", "");
         listview = (ListView) findViewById(R.id.settings_listview);
         header = getLayoutInflater().inflate(R.layout.listview_settings_header, null);
         getParentNumberView = getLayoutInflater().inflate(R.layout.view_settings_getparentnumber, null);
         TextView headerText = (TextView) header.findViewById(R.id.settings_listview_header_title);
         headerText.setText("기본 설정");
         array = new ArrayList<>();
-        array.add(new SettingsData(1, username+"("+id+")으로 로그인 중", "로그아웃하려면 누르세요!"));
+        array.add(new SettingsData(1, username + "(" + id + ")으로 로그인 중", "로그아웃하려면 누르세요!"));
         array.add(new SettingsData(1, "부모 전화번호 설정", ""));
         SettingsAdapter adapter = new SettingsAdapter(SettingsActivity.this, array);
         listview.addHeaderView(header);
@@ -107,14 +107,21 @@ public class SettingsActivity extends AppCompatActivity {
                                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                                     @Override
                                     public void onClick(MaterialDialog dialog, DialogAction which) {
-                                        editor.putString("parent_number", ed.getText().toString().trim());
-                                        editor.commit();
-                                        Toast.makeText(SettingsActivity.this, ed.getText().toString().trim() + "번으로 설정되었습니다!", Toast.LENGTH_SHORT).show();
-                                        Toast.makeText(SettingsActivity.this, "설정되었습니다!", Toast.LENGTH_SHORT).show();
-                                        EditText ed = (EditText) getParentNumberView.findViewById(R.id.parent_number);
-                                        editor.putString("parent_number", ed.getText().toString().trim());
-                                        editor.commit();
-                                        Toast.makeText(SettingsActivity.this, ed.getText().toString().trim()+"번으로 설정되었습니다!", Toast.LENGTH_SHORT).show();
+                                        String asdf = ed.getText().toString().trim();
+                                        if (asdf.length() < 9){
+                                            Toast.makeText(SettingsActivity.this, "제대로 입력해주세요!", Toast.LENGTH_SHORT).show();
+                                            ed.setText("");
+                                        }
+                                        else {
+                                            editor.putString("parent_number", asdf);
+                                            editor.commit();
+                                            Toast.makeText(SettingsActivity.this, asdf + "번으로 설정되었습니다!", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(SettingsActivity.this, "설정되었습니다!", Toast.LENGTH_SHORT).show();
+                                            EditText ed = (EditText) getParentNumberView.findViewById(R.id.parent_number);
+                                            editor.putString("parent_number", asdf);
+                                            editor.commit();
+                                            Toast.makeText(SettingsActivity.this, asdf + "번으로 설정되었습니다!", Toast.LENGTH_SHORT).show();
+                                        }
                                     }
                                 })
                                 .show();
@@ -162,7 +169,7 @@ public class SettingsActivity extends AppCompatActivity {
                 TextView title = (TextView) view.findViewById(R.id.settings_listview_title);
                 TextView description = (TextView) view.findViewById(R.id.settings_listview_content);
                 title.setText(data.title);
-                if(data.description.trim().equals("")) description.setVisibility(View.GONE);
+                if (data.description.trim().equals("")) description.setVisibility(View.GONE);
                 else description.setText(data.description);
             }
             return view;

@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.RequestBody;
@@ -38,7 +39,7 @@ public class PictureAddActivity extends AppCompatActivity implements View.OnClic
     private static final int CAMERA_REQUEST = 1888;
     String shareType, picturePath, apikey, item_name, item_comment, item_place, item_reward, string_path, finalPath;
     Bitmap bitmap;
-
+    MaterialDialog loading;
     FloatingActionButton add;
     ImageView imageView;
     RelativeLayout pictureSel;
@@ -125,6 +126,11 @@ public class PictureAddActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void upload() {
+        loading = new MaterialDialog.Builder(PictureAddActivity.this)
+                .title("업로드중입니다.")
+                .content("잠시만 기다려주세요")
+                .progress(true, 0)
+                .show();
         File file = new File(picturePath);
         RequestBody image = RequestBody.create(MediaType.parse("image/jpeg"), file);
         postArticle = service.postArticle(image, title.getText().toString().trim(), contentEditText.getText().toString().trim(),
@@ -134,6 +140,7 @@ public class PictureAddActivity extends AppCompatActivity implements View.OnClic
             public void onResponse(Response<String> response, Retrofit retrofit) {
                 switch (response.code()) {
                     case 200:
+                        loading.dismiss();
                         Toast.makeText(PictureAddActivity.this, "정상적으로 등록되었습니다!", Toast.LENGTH_SHORT).show();
                         finish();
                         break;
@@ -142,6 +149,7 @@ public class PictureAddActivity extends AppCompatActivity implements View.OnClic
 
             @Override
             public void onFailure(Throwable t) {
+                loading.dismiss();
                 Toast.makeText(PictureAddActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                 finish();
             }

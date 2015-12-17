@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,9 +37,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ActionBarDrawerToggle dtToggle;
     NavigationView navigationView;
     String number;
+    LinearLayout divier;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
-    TextView sendSMS, sendCall;
+    TextView sendSMS, sendCall, date, desc;
     ImageView health, bokji, hospital, photo;
     public static Activity activity;
     boolean isParent;
@@ -54,6 +56,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setDefault() {
+        divier = (LinearLayout) findViewById(R.id.div_divider);
+        date = (TextView) findViewById(R.id.date_text);
+        desc = (TextView) findViewById(R.id.description_text);
         health = (ImageView) findViewById(R.id.main_health);
         bokji = (ImageView) findViewById(R.id.main_bokji);
         photo = (ImageView) findViewById(R.id.main_photo);
@@ -224,6 +229,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onResume() {
         super.onResume();
         number = sharedPreferences.getString("parent_number", "");
+        if(number.trim().equals("")){
+            desc.setText("전화번호가\n설정되지 않았습니다");
+            date.setVisibility(View.GONE);
+            divier.setVisibility(View.GONE);
+        } else {
+            desc.setText("서로 연락한지\n8일이 지났습니다");
+            divier.setVisibility(View.VISIBLE);
+            date.setText("8일");
+            date.setVisibility(View.VISIBLE);
+        }
         isFirst = sharedPreferences.getBoolean("isFirst", true);
         if(isFirst) startActivity(new Intent(getApplicationContext(), Tutorial.class));
 

@@ -35,6 +35,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/date_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -45,6 +46,7 @@
                         android:textSize="45sp" />
 
                     <LinearLayout
+                        android:id="@+id/div_divider"
                         android:layout_width="40dp"
                         android:layout_height="2dp"
                         android:layout_gravity="center"
@@ -53,6 +55,7 @@
                         android:gravity="center"></LinearLayout>
 
                     <TextView
+                        android:id="@+id/description_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"

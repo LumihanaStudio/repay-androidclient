@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -126,6 +127,16 @@ public class ExcercisePlaceListActivity extends AppCompatActivity {
         adapter = new ExcercisePlaceAdapter(ExcercisePlaceListActivity.this, arrayList);
         listView.setAdapter(adapter);
         loading.dismiss();
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void setActionbar(ActionBar actionbar){
